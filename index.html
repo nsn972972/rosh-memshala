@@ -360,7 +360,7 @@ const candidates = [
 ];
 
 let totalClicks = 0;
-const API_URL = ''; // החלף ל-URL של Cloudflare Worker אחרי הפריסה
+const FIREBASE_URL = 'https://rosh-memshala-default-rtdb.europe-west1.firebasedatabase.app/votes';
 const pendingClicks = Object.fromEntries(candidates.map(c => [c.id, 0]));
 
 /* ============================================================
@@ -665,23 +665,28 @@ updateTotalCounter();
    סנכרון עם השרת + עדכון קאונטר גלובלי
    ============================================================ */
 async function syncWithServer() {
-  if (!API_URL) return;
   const batch = { ...pendingClicks };
   Object.keys(pendingClicks).forEach(k => pendingClicks[k] = 0);
   const hasAny = Object.values(batch).some(v => v > 0);
   try {
-    const res = await fetch(API_URL + '/api/state', {
-      method: hasAny ? 'POST' : 'GET',
-      headers: { 'Content-Type': 'application/json' },
-      body: hasAny ? JSON.stringify({ clicks: batch }) : undefined,
-    });
+    if (hasAny) {
+      const increments = {};
+      candidates.forEach(c => {
+        if (batch[c.id] > 0) increments[c.id] = { '.sv': { 'increment': batch[c.id] } };
+      });
+      await fetch(FIREBASE_URL + '.json', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(increments),
+      });
+    }
+    const res = await fetch(FIREBASE_URL + '.json');
     if (!res.ok) return;
-    const data = await res.json();
-    if (data.totals) {
-      const sum = Object.values(data.totals).reduce((a, b) => a + b, 0);
+    const totals = await res.json();
+    if (totals) {
+      const sum = Object.values(totals).reduce((a, b) => a + b, 0);
       if (sum > 0) {
-        candidates.forEach(c => { c.pct = (data.totals[c.id] / sum) * 100; });
-        // עדכן את הקאונטר הגלובלי לסכום מהשרת
+        candidates.forEach(c => { c.pct = (totals[c.id] / sum) * 100; });
         if (sum > totalClicks) {
           totalClicks = sum;
           updateTotalCounter();
