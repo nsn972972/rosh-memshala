@@ -706,16 +706,29 @@ setInterval(syncWithServer, 500);
 document.getElementById('share').addEventListener('click', async () => {
   const text = 'תמכו בראש הממשלה שלכם 👈';
   const url = window.location.href;
+  const btn = document.getElementById('share');
+  const orig = btn.textContent;
   if (navigator.share) {
     try { await navigator.share({ title: 'ראשממשלת.ישראל', text, url }); } catch(e) {}
-  } else {
-    try {
+    return;
+  }
+  try {
+    if (navigator.clipboard) {
       await navigator.clipboard.writeText(url);
-      const btn = document.getElementById('share');
-      const orig = btn.textContent;
-      btn.textContent = 'הקישור הועתק ✓';
-      setTimeout(() => btn.textContent = orig, 2000);
-    } catch(e) {}
+    } else {
+      const el = document.createElement('textarea');
+      el.value = url;
+      el.style.position = 'fixed';
+      el.style.opacity = '0';
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand('copy');
+      document.body.removeChild(el);
+    }
+    btn.textContent = 'הקישור הועתק ✓';
+    setTimeout(() => btn.textContent = orig, 2000);
+  } catch(e) {
+    window.prompt('העתיקו את הקישור:', url);
   }
 });
 
