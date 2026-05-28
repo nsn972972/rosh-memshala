@@ -7,7 +7,7 @@
 <title>ראשממשלת.ישראל — תמכו בראש הממשלה שלכם</title>
 <meta name="description" content="לחצו על המועמד שלכם והשפיעו על תוצאות הבחירות לכנסת ה-26">
 <meta property="og:title" content="ראשממשלת.ישראל — מי יוביל את ישראל?">
-<meta property="og:description" content="תמכו במועמד שלכם. כל לחיצה חשובה.">
+<meta property="og:description" content="תמכו במועמד שלכם. כל תמיכה חשובה.">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -316,7 +316,7 @@
 <header>
   <div class="domain">ראשממשלת.ישראל</div>
   <h1>תמכו בראש הממשלה שלכם</h1>
-  <div class="subtitle">כל לחיצה קובעת<span class="live-dot"></span></div>
+  <div class="subtitle">כל תמיכה קובעת<span class="live-dot"></span></div>
 
   <div class="countdown">
     <div class="countdown-unit"><span class="countdown-num" id="cd-days">--</span><span class="countdown-label">ימים</span></div>
@@ -344,9 +344,9 @@
 
 <!-- קאונטר לחיצות גלובלי -->
 <section class="counter-section">
-  <div class="counter-label">סך הלחיצות באתר</div>
+  <div class="counter-label">סך התמיכות באתר</div>
   <div class="counter-number" id="total-counter">0</div>
-  <div class="counter-caption"><span class="counter-pulse">●</span>כל לחיצה נספרת</div>
+  <div class="counter-caption"><span class="counter-pulse">●</span>כל תמיכה נספרת</div>
 </section>
 
 <div class="share-bar">
@@ -519,7 +519,7 @@ candidates.forEach(c => {
   el.className = 'cand';
   el.dataset.id = c.id;
   el.style.setProperty('--bar-color', c.hex);
-  el.innerHTML = '<div class="face-wrap"><div class="crown">👑</div>' + buildFaceSVG(c) + '</div><div class="cand-name">' + c.name + '</div><div class="cand-party">' + c.party + '</div><div class="pct-bar"><div class="pct-fill" data-fill></div></div><div class="pct-text" data-pct>25.00%</div><div class="clicks-text" data-clicks>0 קלקות</div>';
+  el.innerHTML = '<div class="face-wrap"><div class="crown">👑</div>' + buildFaceSVG(c) + '</div><div class="cand-name">' + c.name + '</div><div class="cand-party">' + c.party + '</div><div class="pct-bar"><div class="pct-fill" data-fill></div></div><div class="pct-text" data-pct>25.00%</div><div class="clicks-text" data-clicks>0 תמיכות</div>';
   container.appendChild(el);
   elemRefs[c.id] = el;
   el.addEventListener('click', () => handleClick(c, el));
@@ -577,7 +577,7 @@ function render() {
     el.querySelector('[data-fill]').style.width = c.pct + '%';
     el.querySelector('[data-pct]').textContent = c.pct.toFixed(2) + '%';
     const clicks = (serverTotals ? (serverTotals[c.id] || 0) : 0) + pendingClicks[c.id];
-    el.querySelector('[data-clicks]').textContent = clicks.toLocaleString('he-IL') + ' קלקות';
+    el.querySelector('[data-clicks]').textContent = clicks.toLocaleString('he-IL') + ' תמיכות';
     const mood = Math.max(0, Math.min(1, (c.pct - 5) / 45));
     updateFaceMood(c.id, mood);
     if (c.pct === maxPct) el.classList.add('leader');
