@@ -569,7 +569,7 @@ function render() {
   candidates.forEach(c => {
     const el = elemRefs[c.id];
     el.querySelector('[data-fill]').style.width = c.pct + '%';
-    el.querySelector('[data-pct]').textContent = c.pct.toFixed(1) + '%';
+    el.querySelector('[data-pct]').textContent = c.pct.toFixed(2) + '%';
     const mood = Math.max(0, Math.min(1, (c.pct - 5) / 45));
     updateFaceMood(c.id, mood);
     if (c.pct === maxPct) el.classList.add('leader');
