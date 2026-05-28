@@ -362,6 +362,7 @@ const candidates = [
 let totalClicks = 0;
 const FIREBASE_URL = 'https://rosh-memshala-default-rtdb.europe-west1.firebasedatabase.app/votes';
 const pendingClicks = Object.fromEntries(candidates.map(c => [c.id, 0]));
+let serverTotals = null;
 
 /* ============================================================
    טיימר
@@ -682,17 +683,29 @@ async function syncWithServer() {
     }
     const res = await fetch(FIREBASE_URL + '.json');
     if (!res.ok) return;
-    const totals = await res.json();
-    if (totals) {
-      const sum = Object.values(totals).reduce((a, b) => a + b, 0);
-      if (sum > 0) {
+    const totals = await res.json() || {};
+    candidates.forEach(c => { if (!totals[c.id]) totals[c.id] = 0; });
+    const sum = Object.values(totals).reduce((a, b) => a + b, 0);
+    if (sum > 0) {
+      if (serverTotals === null) {
         candidates.forEach(c => { c.pct = (totals[c.id] / sum) * 100; });
-        if (sum > totalClicks) {
-          totalClicks = sum;
-          updateTotalCounter();
-        }
-        render();
+      } else {
+        candidates.forEach(c => {
+          const delta = totals[c.id] - (serverTotals[c.id] || 0);
+          if (delta !== 0) {
+            c.pct += delta * 0.01;
+            const others = candidates.filter(x => x.id !== c.id);
+            others.forEach(o => o.pct -= (delta * 0.01) / others.length);
+          }
+        });
       }
+      serverTotals = { ...totals };
+      normalize();
+      if (sum > totalClicks) {
+        totalClicks = sum;
+        updateTotalCounter();
+      }
+      render();
     }
   } catch (e) {
     Object.keys(batch).forEach(k => pendingClicks[k] += batch[k]);
