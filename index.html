@@ -535,7 +535,7 @@ function handleClick(c, el) {
   const before = Object.fromEntries(candidates.map(x => [x.id, x.pct]));
   const sorted = [...candidates].sort((a, b) => b.pct - a.pct);
   const leader = sorted[0];
-  const transfer = 0.3;
+  const transfer = 0.01;
   if (leader.id !== c.id && leader.pct > transfer + 1) { leader.pct -= transfer; c.pct += transfer; }
   else if (leader.id === c.id) {
     const second = sorted[1];
