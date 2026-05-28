@@ -159,6 +159,12 @@
     color: var(--bar-color);
     text-shadow: 0 0 16px var(--bar-color);
   }
+  .clicks-text {
+    margin-top: 3px;
+    font-size: 11px;
+    color: var(--ink-faint);
+    font-variant-numeric: tabular-nums;
+  }
 
   .particle {
     position: fixed; pointer-events: none;
@@ -513,7 +519,7 @@ candidates.forEach(c => {
   el.className = 'cand';
   el.dataset.id = c.id;
   el.style.setProperty('--bar-color', c.hex);
-  el.innerHTML = '<div class="face-wrap"><div class="crown">👑</div>' + buildFaceSVG(c) + '</div><div class="cand-name">' + c.name + '</div><div class="cand-party">' + c.party + '</div><div class="pct-bar"><div class="pct-fill" data-fill></div></div><div class="pct-text" data-pct>25.0%</div>';
+  el.innerHTML = '<div class="face-wrap"><div class="crown">👑</div>' + buildFaceSVG(c) + '</div><div class="cand-name">' + c.name + '</div><div class="cand-party">' + c.party + '</div><div class="pct-bar"><div class="pct-fill" data-fill></div></div><div class="pct-text" data-pct>25.00%</div><div class="clicks-text" data-clicks>0 קלקות</div>';
   container.appendChild(el);
   elemRefs[c.id] = el;
   el.addEventListener('click', () => handleClick(c, el));
@@ -570,6 +576,8 @@ function render() {
     const el = elemRefs[c.id];
     el.querySelector('[data-fill]').style.width = c.pct + '%';
     el.querySelector('[data-pct]').textContent = c.pct.toFixed(2) + '%';
+    const clicks = (serverTotals ? (serverTotals[c.id] || 0) : 0) + pendingClicks[c.id];
+    el.querySelector('[data-clicks]').textContent = clicks.toLocaleString('he-IL') + ' קלקות';
     const mood = Math.max(0, Math.min(1, (c.pct - 5) / 45));
     updateFaceMood(c.id, mood);
     if (c.pct === maxPct) el.classList.add('leader');
