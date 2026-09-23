@@ -9,6 +9,7 @@ The site is a **single page** — do not add separate pages.
   - `game/style.css` — every rule is scoped under `.g61`, keyframes are prefixed `g61-`. Keep it that way: the homepage has its own `.countdown`, `@keyframes pulse`, and global `h1`/`header`/`*` rules.
   - The page's only `h1` and `main` belong to the homepage; game screens use `h2` and `div`. Don't autofocus or scroll to the game on a plain visit — only after the player interacts or arrives via a share link (`#/daily/…`, `#/c/…`, `#/coalition`).
   - `game/engine.js` — pure game logic (no DOM), shared by the page and the tests.
+  - GitHub Pages serves CSS/JS with a 4-hour browser cache: after changing `game/style.css` or `game/engine.js`, bump the `?v=` on their links in `index.html`.
   - `game/polls.json` — written by the poll updater; the engine has an embedded snapshot as fallback.
 - `game61/poll-updater/` — fetches the poll average, maps names (`parties.json`), normalizes to 120, validates, writes `game/polls.json`.
 - `.github/workflows/update-polls.yml` — runs the updater every 2h; commits only changed, validated data.
