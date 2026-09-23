@@ -1,14 +1,25 @@
-/* 61 — יש לך דקה. Embedded in the homepage: every rule is scoped under .g61
-   so the game and the homepage styles don't leak into each other. */
+/* 61 — יש לך דקה. Every rule is scoped under .g61 (the page wrapper) and keyframes are prefixed g61-. */
 .g61{--night:#101A35;--night2:#172449;--night3:#1F2E5C;--line:rgba(255,255,255,.1);--ink:#F4F6FB;--muted:#AEB8D3;--gold:#F7C65E;--green:#42C99B;--coral:#FF8F7E;--r-lg:22px;--r-md:16px;
   position:relative;font-family:'Rubik',system-ui,'Segoe UI',Arial,sans-serif;color:var(--ink);
-  background:radial-gradient(120% 50% at 50% 0%,#233a78 0%,rgba(35,58,120,0) 60%),radial-gradient(80% 40% at 50% 100%,rgba(247,198,94,.08),transparent 70%),var(--night);
-  border-top:1px solid var(--line);-webkit-tap-highlight-color:transparent}
+  background:radial-gradient(120% 60% at 50% -10%,#233a78 0%,rgba(35,58,120,0) 60%),radial-gradient(80% 40% at 50% 110%,rgba(247,198,94,.08),transparent 70%),var(--night);
+  -webkit-tap-highlight-color:transparent}
 .g61 *,.g61 *::before,.g61 *::after{box-sizing:border-box}
-.g61 .screen.intro{min-height:0;padding-top:28px}
-.g61 .about{max-width:480px;margin:0 auto;padding:4px 16px calc(36px + env(safe-area-inset-bottom,0px));color:var(--muted);font-size:14px;line-height:1.6}
-.g61 .about h3{color:var(--ink);font-size:15px;margin:16px 0 2px}
-.g61 .about p{margin:0}
+/* intro shares the screen with the site header: it fills what's left, the chamber scales with the height */
+.g61 .screen.intro{flex:1;min-height:0;width:100%;padding-top:18px;position:relative}
+.g61 .intro .intro-top{position:absolute;top:12px;left:16px;z-index:1}
+.g61 .intro .hero{--hero:min(calc(100vw - 32px),380px,max(150px,calc((100vh - 560px) * 1.68)));width:var(--hero);margin-top:0}
+@supports (height:100dvh){.g61 .intro .hero{--hero:min(calc(100vw - 32px),380px,max(150px,calc((100dvh - 560px) * 1.68)))}}
+.g61 .intro .n61{font-size:calc(var(--hero) * .31)}
+.g61 .intro .title{margin-top:10px}
+@media (max-height:780px){
+  .g61 .intro .how{display:none}
+  .g61 .intro .hero{--hero:min(calc(100vw - 32px),380px,max(140px,calc((100vh - 400px) * 1.68)))}
+  @supports (height:100dvh){.g61 .intro .hero{--hero:min(calc(100vw - 32px),380px,max(140px,calc((100dvh - 400px) * 1.68)))}}
+  .g61 .intro .title{font-size:24px;margin-top:8px}
+  .g61 .intro .lede{font-size:15px;margin-top:6px}
+  .g61 .intro .ctas{padding-top:12px;gap:10px}
+  .g61 .intro .btn{min-height:50px}
+}
 .g61 button{font:inherit;color:inherit}
 .g61 :focus-visible{outline:3px solid var(--gold);outline-offset:3px}
 .g61 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
@@ -137,6 +148,62 @@
 .g61 .card-seats{font-size:32px}
 .g61 .card-head{font-size:16px}
 .g61 .timer{font-size:24px;min-width:62px}
+}
+/* one-screen play: the chamber takes whatever height is left, so timer, cards and buttons always fit */
+.g61 .game .meter{width:100%}
+.g61 .game .meter .chamber{margin:0 auto}
+.g61 .screen.game{padding-top:8px;padding-bottom:10px}
+.g61 .game .timebar{margin:6px 0 2px}
+.g61 .game .meter .chamber{width:clamp(120px,calc((100vh - 540px) * 1.68),300px)}
+@supports (height:100dvh){.g61 .game .meter .chamber{width:clamp(120px,calc((100dvh - 540px) * 1.68),300px)}}
+.g61 .game .msg{margin:2px 0 6px}
+.g61 .game .foot{flex-direction:row;flex-wrap:wrap;justify-content:center;align-items:center;gap:0 6px;padding-top:10px}
+.g61 .game .foot .btn.form{flex:1 1 180px;width:auto;margin:0;font-size:16px;padding:0 8px}
+.g61 .game .foot .btn.text{flex:none;padding:0 8px}
+.g61 .game .foot .source,.g61 .game .foot .badge{flex-basis:100%}
+.g61 .game .foot .source{margin-top:6px;font-size:11px;line-height:1.4}
+.g61 .game .foot .badge{margin-top:4px}
+.g61 .card.compact{min-height:clamp(56px,7.6vh,80px);padding:6px 8px}
+.g61 .card.compact .card-seats{font-size:clamp(24px,3.6vh,30px)}
+.g61 .card.compact .card-head{font-size:13px;line-height:1.15}
+@media (max-height:600px){
+  .g61 .screen.game{padding-top:6px;padding-bottom:6px}
+  .g61 .game .icon-btn{width:40px;height:40px}
+  .g61 .game .meter .chamber{width:clamp(96px,calc((100vh - 480px) * 1.68),300px)}
+  @supports (height:100dvh){.g61 .game .meter .chamber{width:clamp(96px,calc((100dvh - 480px) * 1.68),300px)}}
+  .g61 .game .msg{font-size:15px;min-height:20px;margin:0 0 4px}
+  .g61 .cards.three{gap:6px}
+  .g61 .card.compact{min-height:48px;padding:4px 8px}
+  .g61 .card.compact .card-seats{font-size:22px}
+  .g61 .card.compact .card-head{font-size:12px;margin-top:2px}
+  .g61 .game .foot{padding-top:6px}
+  .g61 .game .foot .btn.form{min-height:48px}
+  .g61 .game .foot .source{font-size:10.5px;margin-top:4px}
+}
+@media (min-width:760px){
+  .g61 .game .meter .chamber{width:clamp(120px,calc((100vh - 470px) * 1.68),400px)}
+  @supports (height:100dvh){.g61 .game .meter .chamber{width:clamp(120px,calc((100dvh - 470px) * 1.68),400px)}}
+  .g61 .game .foot{margin-top:auto;padding-top:14px}
+}
+/* one-screen results: the chamber takes what is left; main actions side by side */
+.g61 .screen.result{padding-top:10px;padding-bottom:10px}
+.g61 .result .res-chamber{width:clamp(0px,calc((100vh - 600px) * 1.68),260px);margin-top:4px}
+@supports (height:100dvh){.g61 .result .res-chamber{width:clamp(0px,calc((100dvh - 600px) * 1.68),260px)}}
+.g61 .result .ann-kicker{margin-top:8px}
+.g61 .result .chips{margin-top:12px}
+.g61 .result .rule{margin-top:8px}
+.g61 .result .ctas{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding-top:12px}
+.g61 .result .ctas .btn{font-size:16px;padding:0 8px;min-height:50px}
+.g61 .result .ctas .btn.text{min-height:40px}
+.g61 .result .ctas .row{grid-column:1/-1}
+.g61 .result .source{margin-top:8px}
+.g61 .result .badge{margin-top:6px}
+@media (max-height:650px){.g61 .result .res-chamber{display:none}}
+@media (max-height:600px){
+  .g61 .result .ann-name,.g61 .result .res-title{font-size:34px}
+  .g61 .result .res-time span{font-size:60px}
+  .g61 .result .chips li{padding:5px 10px;font-size:14px}
+  .g61 .result .source{font-size:10.5px}
 }
 @keyframes g61-pop{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
 @keyframes g61-rise{from{transform:translateY(10px);opacity:0}to{transform:none;opacity:1}}

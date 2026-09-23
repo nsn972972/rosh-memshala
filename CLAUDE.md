@@ -2,12 +2,13 @@
 
 ## What this repo is
 Static site on GitHub Pages (custom domain in `CNAME`, Cloudflare in front). No build step.
-The site is a **single page** — do not add separate pages.
-- `index.html` — the whole site: candidate support counter + countdown, then the game section `#game` at the end. Counter API in `worker.js` (Cloudflare Worker + Durable Object). Do not change the counter or existing content without an explicit request.
-- The game "61 — יש לך דקה" (full spec: `game61/docs/61_claude_product_spec_he.md`):
-  - React app (UMD React + htm from CDN, no build) mounts into `#game-root` from the **inline** script at the end of `index.html`, wrapped in an IIFE so its names don't collide with the homepage script. Kept inline on purpose: Windows Defender flags it as `Trojan:Win32/MalUri.A!cl` (false positive) when saved as a separate `app.js`, which blocks local editing.
-  - `game/style.css` — every rule is scoped under `.g61`, keyframes are prefixed `g61-`. Keep it that way: the homepage has its own `.countdown`, `@keyframes pulse`, and global `h1`/`header`/`*` rules.
-  - The page's only `h1` and `main` belong to the homepage; game screens use `h2` and `div`. Don't autofocus or scroll to the game on a plain visit — only after the player interacts or arrives via a share link (`#/daily/…`, `#/c/…`, `#/coalition`).
+The site is a **single page** with only: the title "מי יהיה ראש ממשלת ישראל?", the election countdown, and the game "61 — יש לך דקה". Do not add separate pages. (The old candidate-support counter was removed on 23.9.2026; its Firebase database is no longer used by the site.)
+- `index.html` — the whole site. `.site-head` (h1 + countdown to 27.10.2026 07:00, UTC+2) shows on the intro only; `body[data-view]` (set by the app) hides it on the game and result screens.
+- **Everything must stay over the fold:** intro, play and result screens each fit one screen, without scrolling, from 360×640 (and 375×548 — iPhone SE with Safari's bars) up to desktop. The chamber graphics absorb the leftover height (`calc(100dvh - N)` widths in `game/style.css`); short screens get compaction rules under `@media (max-height:…)`. After any layout change, measure `scrollHeight <= innerHeight` at 360×640, 375×548, 375×667, 390×844, 1366×768.
+- The game (full spec: `game61/docs/61_claude_product_spec_he.md`):
+  - React app (UMD React + htm from CDN, no build) mounts into `<main id="game-root">` from the **inline** script at the end of `index.html`, wrapped in an IIFE. Kept inline on purpose: Windows Defender flags it as `Trojan:Win32/MalUri.A!cl` (false positive) when saved as a separate `app.js`, which blocks local editing.
+  - `game/style.css` — every rule is scoped under `.g61` (the page wrapper), keyframes are prefixed `g61-`.
+  - The page's only `h1` is the site title; game screens use `h2`. No autofocus on a plain visit — only after the player interacts or arrives via a share link (`#/daily/…`, `#/c/…`, `#/coalition`).
   - `game/engine.js` — pure game logic (no DOM), shared by the page and the tests.
   - GitHub Pages serves CSS/JS with a 4-hour browser cache: after changing `game/style.css` or `game/engine.js`, bump the `?v=` on their links in `index.html`.
   - `game/polls.json` — written by the poll updater; the engine has an embedded snapshot as fallback.
@@ -31,7 +32,7 @@ The site is a **single page** — do not add separate pages.
 - Historical scenarios require a checked official source, source date and verifiable seat totals.
 - Rankings, if implemented, compare game speed only — never parties or coalitions.
 - Do not collect or infer players' political preferences from game actions. No sign-up. Best times stay in localStorage only.
-- Do not mix homepage support counts with game results or poll data.
+- Do not present game results as polls or predictions, and keep poll data clearly sourced.
 
 ## UX and engineering
 - Hebrew, real RTL, 360px mobile support are mandatory.
@@ -39,6 +40,6 @@ The site is a **single page** — do not add separate pages.
 - Timer starts only after the player actively begins.
 - Every daily challenge must be deterministic (Asia/Jerusalem date + set version) and solvable. Changing the generator = bump `SET_VERSION`, keep old links working.
 - Respect `prefers-reduced-motion`; sound off by default; accessible contrast.
-- Share links point to the same challenge on the homepage (hash routes `#/daily/YYYY-MM-DD`, `#/c/<seed>`). Do not claim personal dynamic OG cards without a server.
+- Share links point to the same challenge on the site (hash routes `#/daily/YYYY-MM-DD`, `#/c/<seed>`). Do not claim personal dynamic OG cards without a server.
 - Run the tests and report actual results, never imaginary passes.
 - Do not deploy (push to `main` = deploy), change DNS, or run the workflow without explicit authorization.

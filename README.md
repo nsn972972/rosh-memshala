@@ -1,57 +1,29 @@
 # ראשממשלת.ישראל
 
-אתר הצבעות אינטראקטיבי — לחצו על המועמד שלכם והשפיעו על תוצאות הבחירות לכנסת ה-26.
+**מי יהיה ראש ממשלת ישראל?** — עמוד אחד: ספירה לאחור לבחירות לכנסת ה־26 (27.10.2026) והמשחק "61 — יש לך דקה": דקה אחת להרכיב רוב של 61 מנדטים לפי ממוצע הסקרים, ולגלות מי ראש הממשלה בקואליציה שלך. משחק, לא תחזית.
 
-## מה האתר עושה
-
-- מציג את המועמדים לראשות הממשלה (נתניהו, בנט, אייזנקוט, ליברמן)
-- כל לחיצה מוסיפה קול למועמד בזמן אמת
-- תוצאות מתעדכנות בשרת ומוצגות לכל המשתתפים
-
-## ארכיטקטורה
-
-| קובץ | תיאור |
-|------|-------|
-| `index.html` | ממשק המשתמש — HTML/CSS/JS סטטי |
-| `worker.js` | Cloudflare Worker — API לספירת הקלקות |
-
-ה-backend בנוי על **Cloudflare Workers + Durable Objects** לשמירת state גלובלי.
-
-## פריסה
-
-### Frontend
-העלו את `index.html` לכל שרת סטטי (GitHub Pages, Cloudflare Pages, Netlify וכו').
-
-### Backend (Cloudflare Worker)
-```bash
-npm install -g wrangler
-wrangler login
-wrangler init ramashmemshelet-api
-# העתיקו את תוכן worker.js לתוך src/index.js
-wrangler deploy
-```
-לאחר הפריסה, הכניסו את ה-URL שמתקבל לתוך `API_URL` בקובץ `index.html`.
-
-## טכנולוגיות
-
-- HTML / CSS / Vanilla JS
-- Cloudflare Workers
-- Cloudflare Durable Objects
-
-## המשחק "61 — יש לך דקה" (משולב בעמוד הבית, `#game`)
+## מבנה
 
 | נתיב | תיאור |
 |------|-------|
-| `game/` | נכסי המשחק — `engine.js`, `style.css` (כל הכללים תחת `.g61`), `polls.json`. קוד האפליקציה נמצא בתוך `index.html` |
+| `index.html` | כל האתר: כותרת, ספירה לאחור, והמשחק (קוד האפליקציה בתוך הקובץ) |
+| `game/` | נכסי המשחק — `engine.js`, `style.css` (כל הכללים תחת `.g61`), `polls.json` |
 | `game61/poll-updater/` | עדכון אוטומטי של `game/polls.json` מממוצע הסקרים |
 | `game61/game/engine.test.cjs` | בדיקות מנוע המשחק |
 | `.github/workflows/update-polls.yml` | הרצת העדכון כל שעתיים |
 
 פרטים: `game61/README-he.md`. אפיון: `game61/docs/`.
 
+## בדיקות
+
 ```bash
 node game61/game/engine.test.cjs
 node game61/poll-updater/test/core.test.mjs
 ```
 
-**שינוי תאריך הבחירות / תקופת האיסור:** `game61/poll-updater/config.json` וגם `ELECTION` בתוך `index.html`.
+## פריסה
+
+אתר סטטי ב־GitHub Pages (דומיין ב־`CNAME`, Cloudflare לפניו). כל push ל־`main` עולה לאוויר.
+אחרי שינוי ב־`game/style.css` או ב־`game/engine.js` — להעלות את `?v=` בקישורים אליהם ב־`index.html` (הדפדפנים שומרים אותם 4 שעות).
+
+**שינוי תאריך הבחירות / תקופת האיסור:** `game61/poll-updater/config.json`, `ELECTION` בתוך `index.html`, ו־`ELECTION_DATE` של הספירה לאחור ב־`index.html`.
