@@ -37,3 +37,21 @@ wrangler deploy
 - HTML / CSS / Vanilla JS
 - Cloudflare Workers
 - Cloudflare Durable Objects
+
+## המשחק "61 — יש לך דקה" (`/game/`)
+
+| נתיב | תיאור |
+|------|-------|
+| `game/` | עמוד המשחק — `index.html`, `engine.js`, `style.css`, `polls.json` |
+| `game61/poll-updater/` | עדכון אוטומטי של `game/polls.json` מממוצע הסקרים |
+| `game61/game/engine.test.cjs` | בדיקות מנוע המשחק |
+| `.github/workflows/update-polls.yml` | הרצת העדכון כל שעתיים |
+
+פרטים: `game61/README-he.md`. אפיון: `game61/docs/`.
+
+```bash
+node game61/game/engine.test.cjs
+node game61/poll-updater/test/core.test.mjs
+```
+
+**שינוי תאריך הבחירות / תקופת האיסור:** `game61/poll-updater/config.json` וגם `ELECTION` בתוך `game/index.html`.

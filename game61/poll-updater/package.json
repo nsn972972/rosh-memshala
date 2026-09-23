@@ -1,0 +1,11 @@
+{
+  "name": "game61-poll-updater",
+  "private": true,
+  "type": "module",
+  "description": "Fetches the published poll average and writes /game/polls.json for the 61 game",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "update": "node update-polls.mjs",
+    "test": "node test/core.test.mjs"
+  }
+}

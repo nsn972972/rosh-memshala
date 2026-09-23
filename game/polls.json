@@ -1,0 +1,108 @@
+{
+  "version": 1,
+  "hidden": false,
+  "source": {
+    "name": "ממוצע הסקרים של \"המדד\"",
+    "url": "https://themadad.com/",
+    "latestPoll": "2026-09-16",
+    "fetchedAt": "2026-09-23T12:12:33.508Z"
+  },
+  "minSeats": 3.9,
+  "lists": [
+    {
+      "id": "yashar",
+      "nameHe": "ישר!",
+      "avg": 22,
+      "seats": 23,
+      "leader": "גדי איזנקוט"
+    },
+    {
+      "id": "likud",
+      "nameHe": "הליכוד",
+      "avg": 21.7,
+      "seats": 22,
+      "leader": "בנימין נתניהו"
+    },
+    {
+      "id": "beyachad",
+      "nameHe": "ביחד",
+      "avg": 12.1,
+      "seats": 12,
+      "leader": "נפתלי בנט"
+    },
+    {
+      "id": "democrats",
+      "nameHe": "הדמוקרטים",
+      "avg": 9,
+      "seats": 9,
+      "leader": "יאיר גולן"
+    },
+    {
+      "id": "ybeytenu",
+      "nameHe": "ישראל ביתנו",
+      "avg": 8,
+      "seats": 8,
+      "leader": "אביגדור ליברמן"
+    },
+    {
+      "id": "shas",
+      "nameHe": "ש״ס",
+      "avg": 7.8,
+      "seats": 8,
+      "leader": "אריה דרעי"
+    },
+    {
+      "id": "utj",
+      "nameHe": "יהדות התורה",
+      "avg": 7.7,
+      "seats": 8,
+      "leader": "יצחק גולדקנופף"
+    },
+    {
+      "id": "otzma",
+      "nameHe": "עוצמה יהודית",
+      "avg": 7.6,
+      "seats": 8,
+      "leader": "איתמר בן גביר"
+    },
+    {
+      "id": "joint",
+      "nameHe": "הרשימה המשותפת",
+      "avg": 7.1,
+      "seats": 7,
+      "leader": "יוסף ג׳בארין"
+    },
+    {
+      "id": "rzp",
+      "nameHe": "הציונות הדתית / זהות",
+      "avg": 6,
+      "seats": 6,
+      "leader": "בצלאל סמוטריץ׳"
+    },
+    {
+      "id": "raam",
+      "nameHe": "רע״מ",
+      "avg": 5.2,
+      "seats": 5,
+      "leader": "מנסור עבאס"
+    },
+    {
+      "id": "winter",
+      "nameHe": "עמך ישראל",
+      "avg": 4.1,
+      "seats": 4,
+      "leader": "עופר וינטר"
+    }
+  ],
+  "excluded": [
+    {
+      "nameHe": "הנדל וזליכה",
+      "avg": 3.5
+    },
+    {
+      "nameHe": "כחול לבן",
+      "avg": 1.1
+    }
+  ],
+  "generatedAt": "2026-09-23T12:12:33.508Z"
+}

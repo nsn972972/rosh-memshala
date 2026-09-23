@@ -1,0 +1,19 @@
+{
+  "_note": "מיפוי שמות הרשימות במקור → מזהה קבוע במשחק. רשימה חדשה/איחוד/שם חדש: להוסיף כאן (id, nameHe, aliases, leader). leader: null רק לרשימה שלא יכולה להיות הגדולה בקואליציה — אחרת העדכון ייעצר.",
+  "lists": [
+    { "id": "yashar",    "nameHe": "ישר!",                 "aliases": ["ישר", "ישר! (איזנקוט)"],             "leader": "גדי איזנקוט" },
+    { "id": "likud",     "nameHe": "הליכוד",               "aliases": ["ליכוד"],                              "leader": "בנימין נתניהו" },
+    { "id": "beyachad",  "nameHe": "ביחד",                 "aliases": ["ביחד (בנט ולפיד)"],                   "leader": "נפתלי בנט" },
+    { "id": "democrats", "nameHe": "הדמוקרטים",            "aliases": ["דמוקרטים"],                           "leader": "יאיר גולן" },
+    { "id": "ybeytenu",  "nameHe": "ישראל ביתנו",          "aliases": [],                                     "leader": "אביגדור ליברמן" },
+    { "id": "shas",      "nameHe": "ש״ס",                  "aliases": ["שס"],                                 "leader": "אריה דרעי" },
+    { "id": "utj",       "nameHe": "יהדות התורה",          "aliases": [],                                     "leader": "יצחק גולדקנופף" },
+    { "id": "otzma",     "nameHe": "עוצמה יהודית",         "aliases": [],                                     "leader": "איתמר בן גביר" },
+    { "id": "joint",     "nameHe": "הרשימה המשותפת",       "aliases": ["המשותפת"],                            "leader": "יוסף ג׳בארין" },
+    { "id": "rzp",       "nameHe": "הציונות הדתית / זהות", "aliases": ["הציונות הדתית", "הציונות הדתית וזהות"], "leader": "בצלאל סמוטריץ׳" },
+    { "id": "raam",      "nameHe": "רע״מ",                 "aliases": ["רעמ"],                                "leader": "מנסור עבאס" },
+    { "id": "winter",    "nameHe": "עמך ישראל",            "aliases": ["עופר וינטר"],                         "leader": "עופר וינטר" },
+    { "id": "hendel",    "nameHe": "הנדל וזליכה",          "aliases": ["המפלגה של הנדל וזליכה"],              "leader": null },
+    { "id": "bluewhite", "nameHe": "כחול לבן",             "aliases": [],                                     "leader": null }
+  ]
+}

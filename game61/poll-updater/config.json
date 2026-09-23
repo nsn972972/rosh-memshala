@@ -1,0 +1,11 @@
+{
+  "electionDate": "2026-10-27",
+  "_blackout": "ניתוק מצב הסקרים מתחילת יום שישי שלפני הבחירות ועד 22:00 ביום הבחירות. לאמת מול סעיף 16ה לחוק הבחירות (דרכי תעמולה).",
+  "blackoutStart": "2026-10-23T00:00",
+  "blackoutEnd": "2026-10-27T22:00",
+  "source": { "name": "ממוצע הסקרים של \"המדד\"", "url": "https://themadad.com/" },
+  "minSeats": 3.9,
+  "minLists": 8,
+  "maxSeatJump": 6,
+  "output": "../game/polls.json"
+}

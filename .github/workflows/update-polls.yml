@@ -1,0 +1,61 @@
+# Updates /game/polls.json from the published poll average every 2 hours.
+# Commits only when the data changed AND passed every check in game61/poll-updater/lib/core.mjs.
+# Any failure leaves the previous file live and fails the run (GitHub emails the repo owner).
+name: update-polls
+
+on:
+  schedule:
+    - cron: '17 */2 * * *'
+  workflow_dispatch:
+    inputs:
+      force:
+        description: 'Skip the seat-jump gate (only after a manual check of the source)'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: update-polls
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Tests
+        run: |
+          node game61/poll-updater/test/core.test.mjs
+          node game61/game/engine.test.cjs
+
+      - name: Fetch, validate, write
+        run: node game61/poll-updater/update-polls.mjs ${{ inputs.force && '--force' || '' }}
+
+      - name: Commit if changed
+        id: commit
+        run: |
+          if git diff --quiet -- game/polls.json; then
+            echo "no change"; echo "changed=false" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          git config user.name  'polls-bot'
+          git config user.email 'polls-bot@users.noreply.github.com'
+          git add game/polls.json
+          git commit -m "polls: update from poll average"
+          git push
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+      # Pushes made with GITHUB_TOKEN may not start a Pages build on their own — request one explicitly.
+      - name: Request Pages build
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X POST "repos/${{ github.repository }}/pages/builds" || echo "::warning::Pages build request failed — check Pages settings"
