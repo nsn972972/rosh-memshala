@@ -1,7 +1,7 @@
 # 61 — יש לך דקה: חבילת שילוב
 
 ## מה יש כאן
-- `game/` (בשורש האתר) — המשחק (React ללא build): `index.html` עם קוד האפליקציה בתוכו, `engine.js`, `style.css`.
+- המשחק משולב בעמוד הבית (`index.html`, אזור `#game`); קוד האפליקציה (React ללא build) נמצא בתוך `index.html`. `game/` בשורש האתר מכיל את `engine.js` ואת `style.css` (כל הכללים תחת `.g61`).
   בדיקות: `node game61/game/engine.test.cjs`
 - `game/polls.json` (בשורש האתר) — הנתונים שהמשחק טוען בכל כניסה. אם הקובץ חסר/פגום → המשחק משתמש בתמונת מצב מוטמעת.
 - `poll-updater/` — עדכון אוטומטי: שולף את ממוצע הסקרים, ממפה שמות, מנרמל ל־120, בודק, וכותב את `polls.json`.
@@ -18,7 +18,7 @@
 
 ## תקופת האיסור
 `poll-updater/config.json` → `blackoutStart` / `blackoutEnd` (שעון ישראל). בחלון הזה נכתב `{"hidden": true}` והמשחק עובר למצב הדמיוני.
-ב־`game/index.html` יש גם `ELECTION.pollsHiddenFrom` כגיבוי בצד הלקוח. **לאמת את שני המועדים מול החוק לפני העלייה.**
+ב־`index.html` יש גם `ELECTION.pollsHiddenFrom` כגיבוי בצד הלקוח. **לאמת את שני המועדים מול החוק לפני העלייה.**
 
 ## שינויים ידניים נפוצים
 - רשימה חדשה / איחוד: להוסיף ל־`poll-updater/parties.json` (id, nameHe, aliases, leader).
